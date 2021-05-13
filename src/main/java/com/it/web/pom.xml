@@ -7,7 +7,6 @@
   <groupId>com.it</groupId>
   <artifactId>mynotes</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <packaging>war</packaging>
 
 
   <properties>
@@ -22,23 +21,6 @@
       <artifactId>junit</artifactId>
       <version>4.11</version>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-context</artifactId>
-      <version>5.2.12.RELEASE</version>
-    </dependency>
-
-<!--    <dependency>-->
-<!--      <groupId>org.springframework</groupId>-->
-<!--      <artifactId>spring-web</artifactId>-->
-<!--      <version>5.2.12.RELEASE</version>-->
-<!--    </dependency>-->
-
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-webmvc</artifactId>
-      <version>5.2.12.RELEASE</version>
     </dependency>
     <!--依赖-->
       <dependency>
