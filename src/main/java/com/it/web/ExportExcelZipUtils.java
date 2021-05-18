@@ -11,21 +11,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class ExportExcelZipUtils {
- 
+
     private static Logger logger = LoggerFactory.getLogger(ExportExcelZipUtils.class);
- 
+
     /**
      * 设置excel压缩文件导出时的请求头
+     *
      * @param response
      * @param fileName:多个excel的压缩文件名
      */
     public static void setResponseHeader(final HttpServletResponse response, final String fileName) {
- 
+
         logger.info("begin to set response header");
         try {
             response.reset();
@@ -35,14 +38,15 @@ public class ExportExcelZipUtils {
             response.addHeader("Pargam", "no-cache");
             response.addHeader("Cache-Control", "no-cache");
             logger.info("set response header successfully");
- 
+
         } catch (final Exception e) {
             logger.error("set response header failed", e);
         }
     }
- 
+
     /**
      * 生成excel文件
+     *
      * @param dataList：数据
      * @param request
      * @param response
@@ -51,19 +55,19 @@ public class ExportExcelZipUtils {
      */
     public static void toExcel(final String[] labels, final List<String[]> dataList, final HttpServletRequest request,
                                final String fileName, final List<String> fileNameList) {
- 
+
         logger.info("begin to create excel");
         final File dirFile = new File(request.getRealPath(File.separator + "excel") + File.separator);
         if (!dirFile.exists()) {
             dirFile.mkdirs();
         }
         final String file = request.getRealPath(File.separator + "excel") + File.separator + fileName + ".xls";
- 
+
         FileOutputStream fos = null;
         Workbook workbook = null;
         try {
             fos = new FileOutputStream(file);
- 
+
             workbook = new HSSFWorkbook();
             final Sheet sheet = workbook.createSheet("数据列表");
             Row row = sheet.createRow(0);
@@ -99,12 +103,13 @@ public class ExportExcelZipUtils {
             }
         }
     }
+
     public static String toZipFiles(final HttpServletRequest request, final List<String> fileNameList,
                                     final String zipFileName) {
- 
+
         String zipFilePath = request.getRealPath(File.separator + "excel") + File.separator + zipFileName;
         logger.info("begin to create zip file");
- 
+
         final File[] files = new File[fileNameList.size()];
         for (int i = 0; i < fileNameList.size(); i++) {
             files[i] = new File(fileNameList.get(i));
@@ -148,9 +153,9 @@ public class ExportExcelZipUtils {
         }
         return zipFilePath;
     }
- 
+
     public static void downloadZip(final OutputStream out, final String zipFilePath) {
- 
+
         logger.info("begin to download zip file from " + zipFilePath);
         FileInputStream inStream = null;
         try {
@@ -176,4 +181,43 @@ public class ExportExcelZipUtils {
             }
         }
     }
+
+    /**
+     * excel文件下载损坏处理
+     *
+     * @param response
+     * @param url
+     */
+    public void Downloads(HttpServletResponse response, String url) {
+        try {
+            File file = new File(url);
+//            String str = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+//            String name = str + ".xlsx";
+            String name = System.currentTimeMillis()+".xlsx";
+            if (file.exists()) { //判断文件父目录是否存在
+                response.setCharacterEncoding("UTF-8");
+                response.setHeader("content-Type", "application/vnd.ms-excel");
+                response.setHeader("Content-Disposition", "attachment;fileName=" + URLEncoder.encode(name, "UTF-8"));
+                response.setHeader("Pragma", URLEncoder.encode(name, "UTF-8"));
+                byte[] buffer = new byte[1024];
+                FileInputStream fis = null; //文件输入流
+                BufferedInputStream bis = null;
+                OutputStream os = null; //输出流
+                os = response.getOutputStream();
+                fis = new FileInputStream(file);
+                bis = new BufferedInputStream(fis);
+
+                int len = 0;
+                while ((len = bis.read(buffer)) > 0) {
+                    os.write(buffer, 0, len);
+                }
+                bis.close();
+                fis.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+//            logger.warn("sys:zydownload:Downloads--userId:"+ ShiroUtils.getUserId()+"===="+e.getMessage());
+        }
+    }
+
 }
