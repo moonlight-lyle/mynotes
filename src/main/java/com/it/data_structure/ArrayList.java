@@ -1,77 +1,44 @@
 package com.it.data_structure;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 /**
  * 自定义ArrayList的实现
  *
  * @author Lyle
  * @date 2021/5/16
  */
-public class ArrayList {
 
-    //成员变量:数组的大小
-    private int size;
+public class ArrayList<E> extends AbstractList<E>{
+
     // 存放元素的数组
-    private int[] elements;
+    private E[] elements;
 
     private static final int DEFAULT_CAPACITY = 10;
-    private static final int ELEMENT_NOT_FOUND = -1;
 
     // 构造函数, 默认数组长度是10
     public ArrayList() {
 //        elements=new int[DEFAULT_CAPACITY];
-        // 无参调用有参
+        // 无参调用有参，通过this调用
         this(DEFAULT_CAPACITY);
     }
 
     // 构造函数，初始化数组长度
     public ArrayList(int capacity) {
         capacity = (capacity < DEFAULT_CAPACITY) ? DEFAULT_CAPACITY : capacity;
-        elements = new int[capacity];
+        elements = (E[]) new Object[capacity];
     }
 
     /**
      * 清除元素的方法
      */
     public void clear() {
-        size=0;
-    }
-
-    /**
-     * 集合的容量
-     */
-    public int size() {
-        return size;
-    }
-
-    /**
-     * 判断集合是否为空
-     *
-     * @return
-     */
-    public boolean isEmpty() {
-        return size == 0;
-    }
-
-    /**
-     * 判断集合是否包含某个元素
-     *
-     * @param element
-     * @return
-     */
-    public boolean contains(Integer element) {
-        if (indexOf(element) != ELEMENT_NOT_FOUND) {
-            return true;
+        // 清空数组中的存储元素（对象的内存地址）
+        for (int i = 0; i < size; i++) {
+            elements[i]=null;
         }
-        return false;
-    }
-
-    /**
-     * 向集合中添加元素
-     *
-     * @param element
-     */
-    public void add(Integer element) {
-
+        size = 0;
     }
 
     /**
@@ -80,10 +47,8 @@ public class ArrayList {
      * @param index
      * @return
      */
-    public Integer get(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("数组索引越界异常！");
-        }
+    public E get(int index) {
+        rangeCheck(index);
         return elements[index];
     }
 
@@ -94,11 +59,9 @@ public class ArrayList {
      * @param element：新值
      * @return: 返回索引处的旧值
      */
-    public Integer set(int index, Integer element) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("数组索引越界异常！");
-        }
-        int old = elements[index];
+    public E set(int index, E element) {
+        rangeCheck(index);
+        E old = elements[index];
         elements[index] = element;
         return old;
     }
@@ -109,8 +72,19 @@ public class ArrayList {
      * @param index
      * @param element
      */
-    public void add(int index, Integer element) {
-
+    public void add(int index, E element) {
+        // 判断元素是否为null
+        if (element==null){
+            return;
+        }
+        rangeCheckForAdd(index);
+        // 扩容
+        ensureCapacity(size+1);
+        for (int i = size-1; i >= index; i--) {
+            elements[i+1]=elements[i];
+        }
+        elements[index]=element;
+        size++;
     }
 
     /**
@@ -119,8 +93,16 @@ public class ArrayList {
      * @param index
      * @return 返回被删除的元素
      */
-    public Integer remove(int index) {
-        return 0;
+    public E remove(int index) {
+        rangeCheck(index);
+        E old = elements[index];
+        for (int i = index+1; i < size; i++) {
+            elements[i-1]=elements[i];
+        }
+        size--;
+        // 清空原来最后一个位置存储的对象的内存地址
+        elements[size]=null;
+        return old;
     }
 
     /**
@@ -129,14 +111,54 @@ public class ArrayList {
      * @param element
      * @return：
      */
-    public int indexOf(Integer element) {
+    public int indexOf(E element) {
         for (int i = 0; i < size; i++) {
-            if (element == elements[i]) {
+            if (element.equals(elements[i])) {
                 return i;
             }
         }
         return ELEMENT_NOT_FOUND;
     }
 
+    /**
+     * 重写toString()方法
+     * @return
+     */
+    @Override
+    public String toString() {
+        // 在java中进行大量字符串拼接使用StringBuilder
+        StringBuilder sb=new StringBuilder();
+        sb.append("size=").append(size).append(", [");
+        for (int i = 0; i < size; i++) {
+            sb.append(elements[i]);
+            if (i!=size-1){
+                sb.append(", ");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
+    }
 
+    /**
+     * 动态扩容的方法
+     * @param capacity
+     */
+    private void ensureCapacity(int capacity){
+        int oldCapacity=elements.length;
+        // 判断目前数组的容量是否需要扩容
+        if (oldCapacity>=capacity){
+            return;
+        }
+        // 新数组的容量是旧容量的1.5倍
+        int newCapacity = oldCapacity+(oldCapacity>>1);
+        // 创建新数组
+        E[] newElements= (E[]) new Object[newCapacity];
+        // 将旧数组的元素拷贝到新数组
+        for (int i = 0; i < size; i++) {
+            newElements[i]=elements[i];
+        }
+        // 旧数组的引用指向新数组
+        elements=newElements;
+        System.out.println("扩容后的容量为："+newCapacity);
+    }
 }

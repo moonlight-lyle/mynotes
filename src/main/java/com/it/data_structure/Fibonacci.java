@@ -13,7 +13,7 @@ public class Fibonacci {
         // 使用递归方法，n=64就会出现性能问题
 //        System.out.println(fib1(64));
         //使用方法二计算n=64时的值
-        System.out.println(fib2(6));
+        System.out.println(fib3(6));
         // 测试方法执行时间
         // 递归方法
 //        TimeTool.check("fib1", new TimeTool.Task() {
@@ -74,5 +74,16 @@ public class Fibonacci {
         }
         return second;
 
+    }
+
+    /**
+     * 数学公式计算
+     * @param n
+     * @return
+     */
+    public static int fib3(int n) {
+        // 特殊值保持不变
+       double c=Math.sqrt(5);
+       return (int)((Math.pow((1+c)/2,n)-Math.pow((1-c)/2,n))/c);
     }
 }
