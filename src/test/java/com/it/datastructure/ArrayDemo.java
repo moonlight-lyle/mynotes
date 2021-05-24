@@ -1,6 +1,7 @@
-package com.it.data_structure;
+package com.it.datastructure;
 
 import com.it.algorithms.vo.Person;
+import com.it.data_structure.ArrayList;
 import org.junit.Test;
 
 

@@ -35,10 +35,11 @@ public class LinkedList<E> extends AbstractList<E>{
 
     @Override
     public void add(int index, E element) {
-        // 0是特殊位置，需要特殊处理
         if (index==0){
+            // 0是特殊位置，需要特殊处理
             first=new Node<E>(element,first);
         }else {
+            // 其他情况
             // 获取当前节点的上一个节点
             Node<E> prev=node(index-1);
             // 创建新节点并改变上一个节点和当前新加节点的指向
@@ -50,12 +51,45 @@ public class LinkedList<E> extends AbstractList<E>{
 
     @Override
     public E remove(int index) {
-        return null;
+        // 取出被删除节点，设置默认值为first
+        Node<E> node=first;
+        if (index==0){
+            first=first.next;
+        }else {
+            // 获取当前节点的前一个元素
+            Node<E> prev=node(index-1);
+            // 设置被删除的节点
+            node=prev.next;
+            // 改变前一个节点的指针指向为当前节点的next
+            prev.next=node.next;
+            // size-1
+            size--;
+        }
+        return node.element;
     }
 
     @Override
     public int indexOf(E element) {
-        return 0;
+        if (element==null){
+            // 元素为null，返回第一个元素为null的索引
+            Node<E> node=first;
+            for (int i = 0; i < size; i++) {
+                if (node.element==null){
+                    return i;
+                }
+                node=node.next;
+            }
+        }else {
+            // 元素不为null
+            Node<E> node=first;
+            for (int i = 0; i < size; i++) {
+                if (element.equals(node.element)){
+                    return i;
+                }
+                node=node.next;
+            }
+        }
+        return ELEMENT_NOT_FOUND;
     }
 
     /**
@@ -85,5 +119,26 @@ public class LinkedList<E> extends AbstractList<E>{
             node=node.next;
         }
         return node;
+    }
+
+    /**
+     * 重写toString()方法
+     * @return
+     */
+    @Override
+    public String toString() {
+        StringBuilder sb=new StringBuilder();
+        sb.append("size=").append(size).append(", [");
+        Node<E> node=first;
+        for (int i = 0; i < size; i++) {
+
+            sb.append(node.element);
+            if (i!=size-1){
+                sb.append(", ");
+            }
+            node=node.next;
+        }
+        sb.append("]");
+        return sb.toString();
     }
 }
