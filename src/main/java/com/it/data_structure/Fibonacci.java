@@ -13,22 +13,22 @@ public class Fibonacci {
         // 使用递归方法，n=64就会出现性能问题
 //        System.out.println(fib1(64));
         //使用方法二计算n=64时的值
-        System.out.println(fib3(6));
+//        System.out.println(fib3(6));
         // 测试方法执行时间
         // 递归方法
-//        TimeTool.check("fib1", new TimeTool.Task() {
-//            @Override
-//            public void execute() {
-//                System.out.println(fib1(46));
-//            }
-//        });
-//        // 自定义方法二
-//        TimeTool.check("fib2", new TimeTool.Task() {
-//            @Override
-//            public void execute() {
-//                System.out.println(fib2(46));
-//            }
-//        });
+        TimeTool.check("fib1", new TimeTool.Task() {
+            @Override
+            public void execute() {
+                System.out.println(fib1(46));
+            }
+        });
+        // 自定义方法二
+        TimeTool.check("fib2", new TimeTool.Task() {
+            @Override
+            public void execute() {
+                System.out.println(fib2(46));
+            }
+        });
     }
 
     /**

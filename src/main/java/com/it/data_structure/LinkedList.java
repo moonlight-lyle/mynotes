@@ -35,6 +35,8 @@ public class LinkedList<E> extends AbstractList<E>{
 
     @Override
     public void add(int index, E element) {
+        // 索引检查
+        rangeCheckForAdd(index);
         if (index==0){
             // 0是特殊位置，需要特殊处理
             first=new Node<E>(element,first);
@@ -51,6 +53,8 @@ public class LinkedList<E> extends AbstractList<E>{
 
     @Override
     public E remove(int index) {
+        // 索引判断
+        rangeCheck(index);
         // 取出被删除节点，设置默认值为first
         Node<E> node=first;
         if (index==0){

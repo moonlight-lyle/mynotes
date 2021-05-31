@@ -96,9 +96,11 @@ public class ArrayList<E> extends AbstractList<E>{
     public E remove(int index) {
         rangeCheck(index);
         E old = elements[index];
+        // 后面的元素向前移动
         for (int i = index+1; i < size; i++) {
             elements[i-1]=elements[i];
         }
+        // size-1
         size--;
         // 清空原来最后一个位置存储的对象的内存地址
         elements[size]=null;
