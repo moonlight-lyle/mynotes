@@ -1,12 +1,14 @@
-package com.it.data_structure;
+package com.it.data_structure.linkList;
+
+import com.it.data_structure.AbstractList;
 
 /**
- * 自定义链表的实现
+ * 自定义单向链表的实现
  *
  * @author Lyle
  * @date 2021/5/22
  */
-public class LinkedList<E> extends AbstractList<E>{
+public class SingleLinkedList<E> extends AbstractList<E> {
 
     // 成员变量
     private Node<E> first; // 指向第0个索引元素
@@ -66,9 +68,9 @@ public class LinkedList<E> extends AbstractList<E>{
             node=prev.next;
             // 改变前一个节点的指针指向为当前节点的next
             prev.next=node.next;
-            // size-1
-            size--;
         }
+        // size-1
+        size--;
         return node.element;
     }
 

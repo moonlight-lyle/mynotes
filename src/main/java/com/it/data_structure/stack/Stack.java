@@ -1,4 +1,7 @@
-package com.it.data_structure;
+package com.it.data_structure.stack;
+
+import com.it.data_structure.List;
+import com.it.data_structure.array.ArrayList;
 
 /**
  * 数据结构：栈的实现

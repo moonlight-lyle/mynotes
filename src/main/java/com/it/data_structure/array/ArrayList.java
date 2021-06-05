@@ -1,4 +1,6 @@
-package com.it.data_structure;
+package com.it.data_structure.array;
+
+import com.it.data_structure.AbstractList;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -10,7 +12,7 @@ import java.util.Objects;
  * @date 2021/5/16
  */
 
-public class ArrayList<E> extends AbstractList<E>{
+public class ArrayList<E> extends AbstractList<E> {
 
     // 存放元素的数组
     private E[] elements;

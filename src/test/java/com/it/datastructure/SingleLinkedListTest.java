@@ -1,14 +1,18 @@
 package com.it.datastructure;
 
-import com.it.data_structure.linkList.LinkedList;
+import com.it.data_structure.linkList.SingleCycleLinkedList;
+import com.it.data_structure.linkList.SingleLinkedList;
 import com.it.data_structure.List;
 
 /**
- * 双向链表测试类
+ * 单向链表测试类
+ *
+ * @author Lyle
+ * @date 2021/5/24
  */
-public class LinkedListTest {
+public class SingleLinkedListTest {
     public static void main(String[] args) {
-        List<Integer> list=new LinkedList<>();
+        List<Integer> list=new SingleCycleLinkedList<>();
         list.add(20);
         list.add(0,10);
         list.add(30);
