@@ -3,7 +3,7 @@ package com.it.data_structure.tree;
 /**
  * 二叉搜索树的实现
  */
-public class BinarySearchTree<E> {
+public class  BinarySearchTree<E> {
 
     // size
     private int size;
