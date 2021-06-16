@@ -1,7 +1,6 @@
 package com.it.groupby;
 
 import com.it.pojo.Company;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,9 +35,9 @@ public class MapGroupBy {
     public static Map<String, List<Company>> groupby(List<Company> list){
         // 按照公司部门进行分组
         Map<String, List<Company>> listMap=null;
-        if (!CollectionUtils.isEmpty(list)){
-            listMap = list.stream().collect(Collectors.groupingBy(Company::getDepartment));
-        }
+//        if (!CollectionUtils.isEmpty(list)){
+//            listMap = list.stream().collect(Collectors.groupingBy(Company::getDepartment));
+//        }
         return listMap;
     }
 }

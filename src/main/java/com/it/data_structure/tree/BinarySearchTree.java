@@ -1,15 +1,48 @@
 package com.it.data_structure.tree;
 
+import java.util.Comparator;
+
 /**
  * 二叉搜索树的实现
  */
-public class  BinarySearchTree<E> {
+public class BinarySearchTree<E> implements com.it.data_structure.printer.BinaryTreeInfo {
 
     // size
     private int size;
 
     // 根节点
     private Node<E> root;
+
+    // 比较器
+    private Comparator<E> comparator;
+
+    public BinarySearchTree() {
+    }
+
+    public BinarySearchTree(Comparator<E> comparator) {
+        this.comparator = comparator;
+    }
+
+    @Override
+    public Object root() {
+        return root;
+    }
+
+    @Override
+    public Object left(Object node) {
+        return ((Node<E>)node).left;
+    }
+
+    @Override
+    public Object right(Object node) {
+        return  ((Node<E>)node).right;
+    }
+
+    @Override
+    public Object string(Object node) {
+        return ((Node<E>)node).element;
+    }
+
 
     /**
      * 节点类
@@ -102,8 +135,14 @@ public class  BinarySearchTree<E> {
      * @param e2
      * @return
      */
+
     private int compare(E e1, E e2) {
-        return 0;
+        // 如果有比较器，优先使用比较器
+        if (comparator != null) {
+            return comparator.compare(e1, e2);
+        }
+        // 如果没有构造器，强制必须实现Comparable接口
+        return ((Comparable<E>) e1).compareTo(e2);
     }
 
     /**
