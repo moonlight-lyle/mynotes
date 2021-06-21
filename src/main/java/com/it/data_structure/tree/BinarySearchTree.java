@@ -1,11 +1,14 @@
 package com.it.data_structure.tree;
 
+import com.it.data_structure.printer.BinaryTreeInfo;
+
 import java.util.Comparator;
 
 /**
  * 二叉搜索树的实现
+ * 实现BinaryTreeInfo接口进行打印
  */
-public class BinarySearchTree<E> implements com.it.data_structure.printer.BinaryTreeInfo {
+public class BinarySearchTree<E> implements BinaryTreeInfo {
 
     // size
     private int size;
@@ -23,6 +26,9 @@ public class BinarySearchTree<E> implements com.it.data_structure.printer.Binary
         this.comparator = comparator;
     }
 
+    /**
+     * 实现打印的方法开始
+     */
     @Override
     public Object root() {
         return root;
@@ -30,18 +36,30 @@ public class BinarySearchTree<E> implements com.it.data_structure.printer.Binary
 
     @Override
     public Object left(Object node) {
-        return ((Node<E>)node).left;
+        return ((Node<E>) node).left;
     }
 
     @Override
     public Object right(Object node) {
-        return  ((Node<E>)node).right;
+        return ((Node<E>) node).right;
     }
 
     @Override
     public Object string(Object node) {
+        // 只打印节点元素的情况
         return ((Node<E>)node).element;
+        // 打印父节点及元素节点
+//        Node<E> myNode = (Node<E>) node;
+//        String parentStr = "null";
+//        if (myNode.parent != null) {
+//            parentStr = myNode.parent.element.toString();
+//        }
+////        return "parentNode:" + parentStr + "_" + "currentNode:" + myNode.element;
+//        return "currentNode:" + myNode.element;
     }
+    /**
+     *实现打印的方法结束
+     */
 
 
     /**
@@ -100,7 +118,11 @@ public class BinarySearchTree<E> implements com.it.data_structure.printer.Binary
                     node = node.left;
                 } else {
                     // 相等
+                    // 处理方法一：覆盖
+                    node.element = element;
                     return;
+                    // 处理方法二：不做任何处理
+//                    return;
                 }
             }
             // 找到父节点后，插入新的节点
@@ -155,4 +177,56 @@ public class BinarySearchTree<E> implements com.it.data_structure.printer.Binary
             throw new IllegalArgumentException("element must not be null");
         }
     }
+
+    /**
+     * 开始：
+     * 前序遍历的实现：递归方式
+     */
+    public void preorderTraversal() {
+        preorderTraversal(root);
+    }
+
+    private void preorderTraversal(Node<E> node) {
+        // 如果node为null，直接结束返回
+        if (node == null) {
+            return;
+        }
+        // 先访问根节点
+        System.out.println(node.element);
+        // 接着递归访问左子树
+        preorderTraversal(node.left);
+        // 最后递归访问右子树
+        preorderTraversal(node.right);
+    }
+
+    /**
+     * 结束：
+     * 中序遍历的实现：递归方式
+     */
+
+    /**
+     * 开始：
+     * 前序遍历的实现：递归方式
+     */
+    public void inorderTraversal() {
+        inorderTraversal(root);
+    }
+
+    private void inorderTraversal(Node<E> node) {
+        // 如果node为null，直接结束返回
+        if (node == null) {
+            return;
+        }
+        // 先递归访问左子树
+        inorderTraversal(node.left);
+        // 打印节点元素
+        System.out.println(node.element);
+        // 最后递归访问右子树
+        inorderTraversal(node.right);
+    }
+
+    /**
+     * 结束：
+     * 中序遍历的实现：递归方式
+     */
 }
